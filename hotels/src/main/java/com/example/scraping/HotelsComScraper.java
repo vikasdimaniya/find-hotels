@@ -40,6 +40,7 @@ public class HotelsComScraper {
             int[] adults = { 2, 2, 2, 1 };
             int[] rooms = { 1, 2, 1, 2 };
             for (int order = 0; order < city.length; order++) {
+                boolean nextCity = false;
                 System.out.println("Searching for hotels on ca.hotels.com in city " + city[order] + " from " + checkinDate[order] + " to "
                         + checkoutDate[order] + " for " + adults[order] + " adults and " + rooms[order] + " rooms");
                 String hotelsComUri = buildHotelsComUrl(city[order], checkinDate[order], checkoutDate[order],
@@ -95,24 +96,29 @@ public class HotelsComScraper {
                         }
 
                         // Extract the price
-                        String price = " ";
+                        String price = "";
                         try {
                             WebElement priceElement = hotelCard
-                                    .findElement(By.xpath(".//div[contains(@class, 'uitk-text-emphasis-theme')]"));
-                            price = priceElement.getText();
+                                    .findElement(By.xpath(".//span[@aria-hidden='true']/div[contains(@class, 'uitk-text-emphasis-theme')]"));
+                            String fullPriceText = priceElement.getText(); // This will get the text "CA $259"
+                            price = fullPriceText.replaceAll("[^\\d]", ""); // Remove non-numeric characters to get "259"
                         } catch (Exception e) {
-                            break; // There are no more available hotels. Exit the loop.
+                            // Handle exception or add logging if needed
                         }
 
+                        if (price.equals("")) {
+                            nextCity = true;
+                            continue;
+                        }
                         // Extract the hotel image URL
                         String imageUrl = " ";
-                        try {
-                            WebElement imageElement = hotelCard
-                                    .findElement(By.xpath(".//img[@class='uitk-image-media']"));
-                            imageUrl = imageElement.getAttribute("src");
-                        } catch (Exception e) {
-                            // Handle the exception or log it
-                        }
+                        // try {
+                        //     WebElement imageElement = hotelCard
+                        //             .findElement(By.xpath(".//img[@class='uitk-image-media']"));
+                        //     imageUrl = imageElement.getAttribute("src");
+                        // } catch (Exception e) {
+                        //     // Handle the exception or log it
+                        // }
 
                         // Extract the hotel location
                         String location = " ";
@@ -146,26 +152,30 @@ public class HotelsComScraper {
                         // }
 
                         // Extract the hotel rating
-                        String rating = " ";
+                        String rating = "";
                         try {
                             WebElement ratingElement = hotelCard.findElement(
-                                    By.xpath(
-                                            ".//span[contains(@class, 'is-visually-hidden') and contains(text(), 'out of')]"));
-                            rating = ratingElement.getText();
+                                    By.xpath(".//span[contains(@class, 'is-visually-hidden') and contains(text(), 'out of')]"));
+                            String ratingText = ratingElement.getText(); // This gets the text "8.4 out of 10"
+                            String numericRating = ratingText.split(" ")[0]; // Extract "8.4"
+                            double ratingValue = Double.parseDouble(numericRating);
+                            int percentageRating = (int) (ratingValue * 10); // Convert to percentage
+                            rating = percentageRating + "%"; // "84%"
                         } catch (Exception e) {
                             // Handle the exception or log it
                         }
+                        
 
                         // Extract the number of reviews
                         String reviewCount = " ";
-                        try {
-                            WebElement reviewCountElement = hotelCard.findElement(
-                                    By.xpath(
-                                            ".//span[contains(@class, 'is-visually-hidden') and contains(text(),'reviews')]"));
-                            reviewCount = reviewCountElement.getText();
-                        } catch (Exception e) {
-                            // Handle the exception or log it
-                        }
+                        // try {
+                        //     WebElement reviewCountElement = hotelCard.findElement(
+                        //             By.xpath(
+                        //                     ".//span[contains(@class, 'is-visually-hidden') and contains(text(),'reviews')]"));
+                        //     reviewCount = reviewCountElement.getText();
+                        // } catch (Exception e) {
+                        //     // Handle the exception or log it
+                        // }
 
                         // Print the extracted information
                         System.out.println("Hotel Name: " + hotelName);
@@ -181,9 +191,12 @@ public class HotelsComScraper {
                                 rating, reviewCount, checkinDate[order], checkoutDate[order]));
                         js.executeScript("window.scrollBy(0, 250);");
                     }
-
+                    if(nextCity){
+                        nextCity = false;
+                        continue;
+                    }
                     // Save the details to a CSV file
-                    saveToCSV(hotels, "hotel_details.csv");
+                    saveToCSVEssentials(hotels, "hotel_details.csv");
 
                     // Close the WebDriver
                     //driver.quit();
@@ -195,6 +208,24 @@ public class HotelsComScraper {
             }
         } catch (Exception e) {
             System.out.println("Error: " + e);
+        }
+    }
+
+    public static void saveToCSVEssentials(List<Hotel> hotels, String fileName) {
+        boolean fileExists = new File(fileName).exists();
+        try (FileWriter writer = new FileWriter(fileName, true)) { // true to append
+            if (!fileExists) {
+                writer.append(
+                        "name,price,location,rating\n");
+            }
+            for (Hotel hotel : hotels) {
+                writer.append(hotel.name).append(',')
+                        .append(hotel.price).append(',')
+                        .append(hotel.location).append(',')
+                        .append(hotel.rating).append('\n');
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
