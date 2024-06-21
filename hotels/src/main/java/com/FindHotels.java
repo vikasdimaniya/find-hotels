@@ -1,6 +1,10 @@
 package com;
 
 import com.storage.AVLTree;
+import com.storage.Node;
+
+import java.util.Scanner;
+
 import com.runtime.CSVFile;
 
 // start of the application
@@ -14,9 +18,17 @@ public class FindHotels {
         for (String word : words) {
             System.out.println(word);
             tree.insertElement(word);
-            System.out.println(tree.getTotalNumberOfNodes());  
         }
         System.out.println("Words in the AVL tree: ");
+        System.out.println(tree.getTotalNumberOfNodes());  
+        
+        // take user input
+        Scanner sc = new Scanner(System.in); 
+        String val = sc.nextLine();
+
+        // search for the user input in the AVL tree
+        Node searchedNode = tree.searchElement(val);
+        System.out.println(searchedNode.frequency);
         
     }
 }

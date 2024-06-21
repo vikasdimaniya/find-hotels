@@ -1,32 +1,7 @@
 package com.storage;
 
 import java.util.Scanner;  
-  
-// create Node class to design the structure of the AVL Tree Node  
-class Node  
-{      
-    String element;  
-    int h;  //for height  
-    Node leftChild;  
-    Node rightChild;  
-      
-    //default constructor to create null node  
-    public Node()  
-    {  
-        leftChild = null;  
-        rightChild = null;  
-        element = "";  
-        h = 0;  
-    }  
-    // parameterized constructor  
-    public Node(String element)  
-    {  
-        leftChild = null;  
-        rightChild = null;  
-        this.element = element;  
-        h = 0;  
-    }       
-}  
+
   
 // create class AVLTree for constructing AVL Tree  
 public class AVLTree  
@@ -99,7 +74,7 @@ public class AVLTree
                     node = doubleWithRightChild( node );  
         }  
         else  
-            ;  // if the element is already present in the tree, we will do nothing   
+            node.frequency++;  // if the element is already present in the tree, we will do nothing   
         node.h = getMaxHeight( getHeight( node.leftChild ), getHeight( node.rightChild ) ) + 1;  
           
         return node;  
@@ -161,15 +136,15 @@ public class AVLTree
     }  
   
     //create searchElement() method to find an element in the AVL Tree  
-    public boolean searchElement(String element)  
+    public Node searchElement(String element)  
     {  
         return searchElement(rootNode, element);  
     }  
   
-    private boolean searchElement(Node head, String element)  
+    private Node searchElement(Node head, String element)  
     {  
-        boolean check = false;  
-        while ((head != null) && !check)  
+        Node check = null;  
+        while ((head != null) && check==null)  
         {  
             String headElement = head.element;  
             if (element.compareTo(headElement)<0)  
@@ -178,8 +153,8 @@ public class AVLTree
                 head = head.rightChild;  
             else  
             {  
-                check = true;  
-                break;  
+                check = head;
+                break;
             }  
             check = searchElement(head, element);  
         }  
@@ -261,8 +236,7 @@ public class AVLTree
   
 //             //get choice from user  
 //             int ch = sc.nextInt();
-//             String val;
-//             val = sc.nextLine();
+//             String val = sc.nextLine();
 //             switch (ch)  
 //             { 
 //                 case 1 :   
