@@ -1,4 +1,4 @@
-package com.example.scraping;
+package com.Scraper;
 
 public class Hotel {
     String name;
