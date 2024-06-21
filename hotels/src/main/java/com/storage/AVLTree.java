@@ -28,13 +28,13 @@ class Node
     }       
 }  
   
-// create class ConstructAVLTree for constructing AVL Tree  
-class ConstructAVLTree  
+// create class AVLTree for constructing AVL Tree  
+public class AVLTree  
 {  
     private Node rootNode;       
   
     //Constructor to set null value to the rootNode  
-    public ConstructAVLTree()  
+    public AVLTree()  
     {  
         rootNode = null;  
     }  
@@ -80,20 +80,20 @@ class ConstructAVLTree
         if (node == null)  
             node = new Node(element);  
         //insert a node in case when the given element is lesser than the element of the root node  
-        else if (element.compareTo(node.element)==-1)  
+        else if (element.compareTo(node.element)<0)  
         {  
             node.leftChild = insertElement( element, node.leftChild );  
             if( getHeight( node.leftChild ) - getHeight( node.rightChild ) == 2 )  
-                if( element.compareTo(node.leftChild.element)==-1 )  
+                if( element.compareTo(node.leftChild.element)<0 )  
                     node = rotateWithLeftChild( node );  
                 else  
                     node = doubleWithLeftChild( node );  
         }  
-        else if( element.compareTo(node.element)==1 )  
+        else if( element.compareTo(node.element)>0 )  
         {  
             node.rightChild = insertElement( element, node.rightChild );  
             if( getHeight( node.rightChild ) - getHeight( node.leftChild ) == 2 )  
-                if( element.compareTo(node.rightChild.element)==1)  
+                if( element.compareTo(node.rightChild.element)>0)  
                     node = rotateWithRightChild( node );  
                 else  
                     node = doubleWithRightChild( node );  
@@ -172,9 +172,9 @@ class ConstructAVLTree
         while ((head != null) && !check)  
         {  
             String headElement = head.element;  
-            if (element.compareTo(headElement)==-1)  
+            if (element.compareTo(headElement)<0)  
                 head = head.leftChild;  
-            else if (element.compareTo(headElement)==1)  
+            else if (element.compareTo(headElement)>0)  
                 head = head.rightChild;  
             else  
             {  
@@ -233,76 +233,76 @@ class ConstructAVLTree
 }  
   
 // create AVLTree class to construct AVL Tree  
-public class AVLTree 
-{  
-    //main() method starts  
-    public static void main(String[] args)  
-    {              
-        //creating Scanner class object to get input from user  
-        Scanner sc = new Scanner(System.in);  
+// public class MYAVLTree 
+// {  
+//     //main() method starts  
+//     public static void main(String[] args)  
+//     {              
+//         //creating Scanner class object to get input from user  
+//         Scanner sc = new Scanner(System.in);  
   
-        // create object of ConstructAVLTree class object for costructing AVL Tree  
-        ConstructAVLTree obj = new ConstructAVLTree();   
+//         // create object of AVLTree class object for costructing AVL Tree  
+//         AVLTree tree = new AVLTree();   
   
-        char choice;    //initialize a character type variable to choice   
+//         char choice;    //initialize a character type variable to choice   
           
-        // perform operation of AVL Tree using switch  
-        do      
-        {  
-            System.out.println("\nSelect an operation:\n");  
-            System.out.println("1. Insert a node");  
-            System.out.println("2. Search a node");  
-            System.out.println("3. Get total number of nodes in AVL Tree");  
-            System.out.println("4. Is AVL Tree empty?");  
-            System.out.println("5. Remove all nodes from AVL Tree");  
-            System.out.println("6. Display AVL Tree in Post order");  
-            System.out.println("7. Display AVL Tree in Pre order");  
-            System.out.println("8. Display AVL Tree in In order");  
+//         // perform operation of AVL Tree using switch  
+//         do      
+//         {  
+//             System.out.println("\nSelect an operation:\n");  
+//             System.out.println("1. Insert a node");  
+//             System.out.println("2. Search a node");  
+//             System.out.println("3. Get total number of nodes in AVL Tree");  
+//             System.out.println("4. Is AVL Tree empty?");  
+//             System.out.println("5. Remove all nodes from AVL Tree");  
+//             System.out.println("6. Display AVL Tree in Post order");  
+//             System.out.println("7. Display AVL Tree in Pre order");  
+//             System.out.println("8. Display AVL Tree in In order");  
   
-            //get choice from user  
-            int ch = sc.nextInt();
-            String val;
-            val = sc.nextLine();
-            switch (ch)  
-            { 
-                case 1 :   
-                    System.out.println("Please enter an element to insert in AVL Tree");  
-                    val = sc.nextLine();
-                    obj.insertElement( val );                       
-                    break;                            
-                case 2 :   
-                    System.out.println("Enter integer element to search");  
-                    val = sc.nextLine();
-                    System.out.println(obj.searchElement( val ));  
-                    break;                                            
-                case 3 :   
-                    System.out.println(obj.getTotalNumberOfNodes());  
-                    break;       
-                case 4 :   
-                    System.out.println(obj.checkEmpty());  
-                    break;       
-                case 5 :   
-                    obj.removeAll();  
-                    System.out.println("\nTree Cleared successfully");  
-                    break;  
-                case 6 :   
-                    System.out.println("\nDisplay AVL Tree in Post order");  
-                    obj.postorderTraversal();  
-                    break;  
-                case 7 :   
-                    System.out.println("\nDisplay AVL Tree in Pre order");  
-                    obj.preorderTraversal();  
-                    break;  
-                case 8 :   
-                    System.out.println("\nDisplay AVL Tree in In order");  
-                    obj.inorderTraversal();  
-                    break;  
-                default :   
-                    System.out.println("\n ");  
-                    break;      
-            }  
-            System.out.println("\nPress 'y' or 'Y' to continue \n");  
-            choice = sc.next().charAt(0);                          
-        } while (choice == 'Y'|| choice == 'y');         
-    }  
-}  
+//             //get choice from user  
+//             int ch = sc.nextInt();
+//             String val;
+//             val = sc.nextLine();
+//             switch (ch)  
+//             { 
+//                 case 1 :   
+//                     System.out.println("Please enter an element to insert in AVL Tree");  
+//                     val = sc.nextLine();
+//                     tree.insertElement( val );                       
+//                     break;                            
+//                 case 2 :   
+//                     System.out.println("Enter integer element to search");  
+//                     val = sc.nextLine();
+//                     System.out.println(tree.searchElement( val ));  
+//                     break;                                            
+//                 case 3 :   
+//                     System.out.println(tree.getTotalNumberOfNodes());  
+//                     break;       
+//                 case 4 :   
+//                     System.out.println(tree.checkEmpty());  
+//                     break;       
+//                 case 5 :   
+//                     tree.removeAll();  
+//                     System.out.println("\nTree Cleared successfully");  
+//                     break;  
+//                 case 6 :   
+//                     System.out.println("\nDisplay AVL Tree in Post order");  
+//                     tree.postorderTraversal();  
+//                     break;  
+//                 case 7 :   
+//                     System.out.println("\nDisplay AVL Tree in Pre order");  
+//                     tree.preorderTraversal();  
+//                     break;  
+//                 case 8 :   
+//                     System.out.println("\nDisplay AVL Tree in In order");  
+//                     tree.inorderTraversal();  
+//                     break;  
+//                 default :   
+//                     System.out.println("\n ");  
+//                     break;      
+//             }  
+//             System.out.println("\nPress 'y' or 'Y' to continue \n");  
+//             choice = sc.next().charAt(0);                          
+//         } while (choice == 'Y'|| choice == 'y');         
+//     }  
+// }  

@@ -7,6 +7,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import com.Entities.Hotel;
+import com.runtime.CSVFile;
+
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -190,7 +193,7 @@ public class HotelsComScraper {
                         continue;
                     }
                     // Save the details to a CSV file
-                    saveToCSVEssentials(hotels, "hotel_details.csv");
+                    CSVFile.saveToCSVEssentials(hotels, "hotel_details.csv");
 
                     // Close the WebDriver
                     //driver.quit();
@@ -205,45 +208,8 @@ public class HotelsComScraper {
         }
     }
 
-    public static void saveToCSVEssentials(List<Hotel> hotels, String fileName) {
-        boolean fileExists = new File(fileName).exists();
-        try (FileWriter writer = new FileWriter(fileName, true)) { // true to append
-            if (!fileExists) {
-                writer.append(
-                        "name,price,location,rating\n");
-            }
-            for (Hotel hotel : hotels) {
-                writer.append(hotel.name).append(',')
-                        .append(hotel.price).append(',')
-                        .append(hotel.location).append(',')
-                        .append(hotel.rating).append('\n');
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    public static void saveToCSV(List<Hotel> hotels, String fileName) {
-        boolean fileExists = new File(fileName).exists();
-        try (FileWriter writer = new FileWriter(fileName, true)) { // true to append
-            if (!fileExists) {
-                writer.append(
-                        "Hotel Name,Description Heading,Description,Price,Image URL,Location,Rating,Review Count\n");
-            }
-            for (Hotel hotel : hotels) {
-                writer.append(hotel.name).append(',')
-                        .append(hotel.descriptionHeading).append(',')
-                        .append(hotel.description).append(',')
-                        .append(hotel.price).append(',')
-                        .append(hotel.imageUrl).append(',')
-                        .append(hotel.location).append(',')
-                        .append(hotel.rating).append(',')
-                        .append(hotel.reviewCount).append('\n');
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    
 
     public static String buildHotelsComUrl(String city, String checkinDate, String checkoutDate, int adults,
             int rooms) {

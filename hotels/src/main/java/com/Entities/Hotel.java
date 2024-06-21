@@ -1,16 +1,16 @@
-package com.Scraper;
+package com.Entities;
 
 public class Hotel {
-    String name;
-    String descriptionHeading;
-    String description;
-    String price;
-    String imageUrl;
-    String location;
-    String rating;
-    String reviewCount;
-    String checkInDate;
-    String checkOutDate;
+    public String name;
+    public String descriptionHeading;
+    public String description;
+    public String price;
+    public String imageUrl;
+    public String location;
+    public String rating;
+    public String reviewCount;
+    public String checkInDate;
+    public String checkOutDate;
 
     public Hotel(String name, String descriptionHeading, String description,String price, String imageUrl, String location, String rating, String reviewCount, String checkInDate, String checkOutDate) {
         //all commas in the fields will be replaced with a hiphen to avoid conflicts with the csv file
