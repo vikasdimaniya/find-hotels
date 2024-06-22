@@ -77,9 +77,16 @@ public class FindHotels {
          * TASK 2 Autocomplete Functionality PART B:
          */
 
+
+        /*
+         * Ideally I would choose Max heap which will return the maximum frequency word first
+         * but as the Task 2 Autocomplete Functionality PART B requires me to use min heap, I will use min heap
+         */ 
         MinHeap minHeap = new MinHeap();
         minHeap.createHeapFromTree(searchedNode);
         
+
+        // As min heap returns the minimum frequency word first, I will extract all the elements from the heap and store them in an arraylist
         ArrayList<Node> suggestions = new ArrayList<Node>();
         //Extract elements from the heap
         while (!minHeap.isEmpty()) {
@@ -87,6 +94,9 @@ public class FindHotels {
             suggestions.add(minNode);
             // System.out.println("Suggestion: " + minNode.element + " (" + minNode.frequency + ")");
         }
+
+        // I have all the elements in the arraylist but they are in opposite order min to max frequency
+        // but i need max to min frequency, so I will sort the arraylist based on frequency as requested in the task 2 Autocomplete Functionality PART B second sentence.
         suggestions.sort(new Comparator<Node>() {
             @Override
             public int compare(Node n1, Node n2) {
