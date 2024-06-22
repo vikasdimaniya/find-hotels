@@ -160,17 +160,47 @@ public class AVLTree
         }  
         return check;  
     }  
+    //create searchElement() method to find an element in the AVL Tree  
+    public Node searchPrefix(String element)  
+    {  
+        return searchPrefix(rootNode, element);  
+    }  
+  
+    private Node searchPrefix(Node head, String element)  
+    {  
+        Node check = null;  
+        while ((head != null) && check==null)  
+        {  
+            String headElement = head.element;
+            if (headElement.startsWith(element)==true) {
+                check = head;
+                break;
+            }
+            if (element.compareTo(headElement)<0)  
+                head = head.leftChild;  
+            else if (element.compareTo(headElement)>0)  
+                head = head.rightChild;  
+            else  
+            {  
+                check = head;
+                break;
+            }  
+            check = searchElement(head, element);  
+        }  
+        return check;  
+    }  
+    
     // create inorderTraversal() method for traversing AVL Tree in in-order form  
     public void inorderTraversal()  
     {  
         inorderTraversal(rootNode);  
     }  
-    private void inorderTraversal(Node head)  
+    public void inorderTraversal(Node head)  
     {  
         if (head != null)  
         {  
             inorderTraversal(head.leftChild);  
-            System.out.print(head.element+" ");  
+            System.out.println(head.element+" frequency:"+head.frequency);  
             inorderTraversal(head.rightChild);  
         }  
     }  
@@ -180,7 +210,7 @@ public class AVLTree
     {  
         preorderTraversal(rootNode);  
     }  
-    private void preorderTraversal(Node head)  
+    public void preorderTraversal(Node head)  
     {  
         if (head != null)  
         {  

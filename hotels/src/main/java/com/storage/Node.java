@@ -22,7 +22,16 @@ public class Node
     {  
         leftChild = null;  
         rightChild = null;  
-        this.element = element;  
+        this.element = element;
+        this.frequency = 1;
         h = 0;  
-    }       
+    }
+    public Node(String element, int frequency)  
+    {  
+        leftChild = null;  
+        rightChild = null;  
+        this.element = element;  
+        this.frequency = frequency;
+        h = 0;  
+    }
 }  
