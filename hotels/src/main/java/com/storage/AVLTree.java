@@ -1,5 +1,7 @@
 package com.storage;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;  
 
   
@@ -234,7 +236,36 @@ public class AVLTree
             postorderTraversal(head.rightChild);  
             System.out.print(head.element+" ");  
         }  
-    }       
+    }      
+    
+    public void breathfirstsearch() {
+        breathfirstsearch(rootNode);
+    }
+    public void breathfirstsearch(Node head) {
+        if (head == null) {
+            return;
+        }
+        int x = 1;
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(head);
+        int i=1;
+        while (!queue.isEmpty()) {
+            Node current = queue.poll();
+            System.out.print(current.element + " ");
+            if (current.leftChild != null) {
+                queue.add(current.leftChild);
+            }
+            if (current.rightChild != null) {
+                queue.add(current.rightChild);
+            }
+            if(i==x*2-1){
+                System.out.println();
+                x=x*2;
+            }
+            i++;
+        }
+        System.out.println();
+    }
 }  
   
 // create AVLTree class to construct AVL Tree  

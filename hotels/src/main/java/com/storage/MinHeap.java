@@ -99,6 +99,7 @@ public class MinHeap {
         if (node == null) {
             return;
         }
+        new Node(node.element, node.frequency);
         insert(node);
         createHeapFromTree(node.leftChild);
         createHeapFromTree(node.rightChild);

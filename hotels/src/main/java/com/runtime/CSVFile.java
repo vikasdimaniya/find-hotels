@@ -14,8 +14,8 @@ import com.Entities.Hotel;
 public class CSVFile {
     //read the file hotel_details.csv and return all the words in that file
     public static String[] getWords(String fileData) {
-        //split the file data into words based on commas spaces hiphen dot and new line
-        return fileData.split("[,\\s\\-\\.\\n]");
+        //split the file data into words based on commas spaces hiphen dot and new line and slash
+        return fileData.split("[,\\s\\-\\.\\n\\/]+");
     }
     //read file function with specifc file name
     public static String readFile(String fileName){
