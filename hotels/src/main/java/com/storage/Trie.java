@@ -2,10 +2,17 @@ package com.storage;
 
 public class Trie {
     TrieNode root;
-
+    /*
+     * Constructor
+     * it initializes the root node with 128 child nodes each for a character of ascii value 0-127,
+     * our input file and search string is in ascii value 0-127
+     */
     public Trie() { root = new TrieNode(); }
 
-    // Function to insert a key into the Trie
+    /*
+     * The function that insert a key into the Trie
+     * it initialized the root node and then iterates through the key to insert the key into the trie
+     */
     public void insert(String key)
     {
         TrieNode currentNode = root;
@@ -19,8 +26,11 @@ public class Trie {
         }
         currentNode.wordEnd = true;
     }
-
-    // Function to search for a key in the Trie
+    /*
+     * Function to search for a key in the Trie
+     * it iterates through the key to search for the key in the trie
+     * if the key is found it returns true else false
+     */
     public boolean search(String key)
     {
         TrieNode currentNode = root;
@@ -33,7 +43,13 @@ public class Trie {
         }
         return currentNode.wordEnd;
     }
-    // create a function that return all the words that start with the given prefix
+
+    /*
+     * A function that return all the words that start with the given prefix
+     * it iterates through the prefix to search for the prefix in the trie
+     * if the prefix is found it calls the printAllWords function to print all the words that start with the given prefix
+     * else it prints "No words found with this prefix"
+     */
     public void suggestWords(String prefix) {
         TrieNode currentNode = root;
         for (int i = 0; i < prefix.length(); i++) {
@@ -46,6 +62,7 @@ public class Trie {
         }
         printAllWords(currentNode, prefix);
     }
+    // A recursive function that prints all the words that start with the given prefix
     public void printAllWords(TrieNode node, String prefix) {
         if (node.wordEnd) {
             System.out.println(prefix);

@@ -27,6 +27,7 @@ public class FindHotels {
         // converting all the words to lowercase for easy of searching
         for (int i =0; i<words.length; i++) { 
             words[i] = words[i].toLowerCase();
+            if(words[i].contains("="))System.out.println(words[i]);
         }
 
         //for (int i=0;i<100;i++) { //for easy of testing
