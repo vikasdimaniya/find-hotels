@@ -2,41 +2,71 @@ package com;
 
 import com.storage.AVLTree;
 import com.storage.Node;
+import com.storage.Trie;
 import com.storage.MinHeap;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
 
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import com.runtime.CSVFile;
 
 // start of the application
 public class FindHotels {
+    static Trie trie;
+    static AVLTree tree;
     public static void main(String[] args) {
         
-        /*
-         * TASK 2 Vocabulary
-         */ 
-
-        AVLTree tree = new AVLTree();
-        
-        /*
-         * TASK 2 Vocabulary part A
-         */
         // read the file and get all the words
         String fileData = CSVFile.readFile("hotel_details.csv");
         String[] words = CSVFile.getWords(fileData);
         Arrays.sort(words);
+        
+        // converting all the words to lowercase for easy of searching
+        for (int i =0; i<words.length; i++) { 
+            words[i] = words[i].toLowerCase();
+        }
+
+        //for (int i=0;i<100;i++) { //for easy of testing
+            // taking user input for searching the word
+            System.out.println("Enter the word to search: ");
+            Scanner sc = new Scanner(System.in); 
+            String prefix = sc.nextLine();
+            
+            // ask user which algorithm to use
+            System.out.println("Which algorithm to use? (press 1 for AVL, 2 for Trie)");
+            String algorithm = sc.nextLine();
+            if (algorithm.equals("1")) {
+                initializeAVLTree(words);
+                suggestWordsUsingAVLTree(prefix);
+            }
+            else if (algorithm.equals("2")) {
+                initializeTrie(words);
+                suggestWordsUsingTrie(prefix);
+            }
+            else {
+                System.out.println("Invalid algorithm");
+            }
+            // initializeAVLTree(words);
+            // suggestWordsUsingAVLTree(prefix);
+
+            // initializeTrie(words);
+            // suggestWordsUsingTrie(prefix);   
+        //}
+
+    }
+    public static void initializeAVLTree(String[] words) {
+        /*
+        * TASK 2 Vocabulary
+        */ 
+
+        tree = new AVLTree();
+    
+        /*
+        * TASK 2 Vocabulary part A
+        */
         
         // System.out.println("Words in the file: ");
         // for (String word : words) {
@@ -44,36 +74,32 @@ public class FindHotels {
         // }
 
         /*
-         * TASK 2 Vocabulary part B
-         */
+        * TASK 2 Vocabulary part B
+        */
         // insert all the words into the AVL tree
         for (String word : words) {
-            tree.insertElement(word.toLowerCase());
+            tree.insertElement(word);
         }
 
-        System.out.println("Total Words in the AVL tree: "+tree.getTotalNumberOfNodes());
-        
+        // System.out.println("Total Words in the AVL tree: "+tree.getTotalNumberOfNodes());
+    }
+    public static void suggestWordsUsingAVLTree(String prefix) {
         /*
-         * TASK 2 Autocomplete Functionality:
-         */ 
-
-        // taking user input for searching the word
-        System.out.println("Enter the word to search: ");
-        Scanner sc = new Scanner(System.in); 
-        String prefix = sc.nextLine();
+        * TASK 2 Autocomplete Functionality:
+        */ 
 
         // tree.breathfirstsearch();
         // tree.preorderTraversal(); // print the AVL tree in preorder
         
         /*
-         * TASK 2 Autocomplete Functionality PART A:
-         */
+        * TASK 2 Autocomplete Functionality PART A:
+        */
 
         /*
-         * search for the user input based on just the prefix in the AVL tree
-         * This is different from normal search as in we are only interested in the prefix of the word not the whole word
-         * For example, if the user enters "hot", the search should return the first node starting with "hot" like "hotel", "hotels", "hotels.com" etc.
-         */ 
+        * search for the user input based on just the prefix in the AVL tree
+        * This is different from normal search as in we are only interested in the prefix of the word not the whole word
+        * For example, if the user enters "hot", the search should return the first node starting with "hot" like "hotel", "hotels", "hotels.com" etc.
+        */ 
         Node searchedNode = tree.searchPrefix(prefix.toLowerCase());
 
         if(searchedNode == null) {
@@ -91,14 +117,14 @@ public class FindHotels {
         // tree.inorderTraversal(searchedNode);
 
         /*
-         * TASK 2 Autocomplete Functionality PART B:
-         */
+        * TASK 2 Autocomplete Functionality PART B:
+        */
 
 
         /*
-         * Ideally I would choose Max heap which will return the maximum frequency word first
-         * but as the Task 2 Autocomplete Functionality PART B requires me to use min heap, I will use min heap
-         */ 
+        * Ideally I would choose Max heap which will return the maximum frequency word first
+        * but as the Task 2 Autocomplete Functionality PART B requires me to use min heap, I will use min heap
+        */ 
         MinHeap minHeap = new MinHeap();
         minHeap.createHeapFromTree(searchedNode);
         
@@ -148,5 +174,23 @@ public class FindHotels {
         for(Node suggestion: suggestions) {
             System.out.println(suggestion.element + " (frequency: " + suggestion.frequency + ")");
         }
+    }
+    public static void initializeTrie(String[] words) {
+        trie = new Trie();
+        // Insert each string into the Trie
+        for (String str : words) {
+            trie.insert(str);
+        }
+    }
+    public static void suggestWordsUsingTrie(String prefix){
+        // Found in the Trie
+        // if (trie.search(prefix)) {
+        //     System.out.println("yes");
+        // } else {
+        //     System.out.println("no");
+        // }
+        // suggest words based on the prefix
+        System.out.println("TRIE Suggestions based on the prefix: ");
+        trie.suggestWords(prefix);
     }
 }
