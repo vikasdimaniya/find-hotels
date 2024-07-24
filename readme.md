@@ -12,3 +12,6 @@ store the top suggestions and sort them before displaying to the user.
 # Solution
 There were only two options to choose from for this AVL or Red-Black tree.
 I chose AVL tree because it is more balanced than Red-Black tree, the insertions take more time but seraches are faster. Our application does not require frequent insertions but it requires frequent searches.   
+
+#Assistant
+Added assistant that can read the csv file that contain hotel info and use this file to answers user queries.
