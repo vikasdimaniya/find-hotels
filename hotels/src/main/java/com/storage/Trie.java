@@ -62,7 +62,10 @@ public class Trie {
         }
         printAllWords(currentNode, prefix);
     }
-    // A recursive function that prints all the words that start with the given prefix
+    /*
+     * A recursive function that prints all the words that start with the given prefix
+     * it iterates through the child nodes of the prefix node and calls itself recursively to print all the words that start with the given prefix
+    */
     public void printAllWords(TrieNode node, String prefix) {
         if (node.wordEnd) {
             System.out.println(prefix);
