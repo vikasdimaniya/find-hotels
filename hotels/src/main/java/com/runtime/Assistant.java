@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class ConversationDemo {
+public class Assistant {
 
   private SimpleOpenAI openAI;
   private FunctionExecutor functionExecutor;
@@ -29,7 +29,7 @@ public class ConversationDemo {
   private StringBuilder content;
   private StringBuilder functionArgs;
 
-  public ConversationDemo() {
+  public Assistant() {
     openAI = SimpleOpenAI.builder().apiKey(TOKEN).build();
   }
 
@@ -115,7 +115,7 @@ public class ConversationDemo {
   }
 
   public static void main(String[] args) {
-    var demo = new ConversationDemo();
+    var demo = new Assistant();
     String fileData = CSVFile.readFile("hotel_details.csv");
     demo.runConversation(fileData);
   }
