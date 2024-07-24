@@ -33,44 +33,17 @@ public class ConversationDemo {
     openAI = SimpleOpenAI.builder().apiKey(TOKEN).build();
   }
 
-  /*
-   * Prepare the conversation by defining the functions that the assistant can use.
-   * The functions are defined by the user and can be used by the assistant to provide information.
-   * In this example, we define two functions: getCurrentTemperature and getRainProbability.
-   * The getCurrentTemperature function returns the current temperature for a specific location.
-   * The getRainProbability function returns the probability of rain for a specific location.
-   * The FunctionExecutor is used to execute the functions during the conversation.
-   */
-  public void prepareConversation() {
-    List<FunctionDef> functionList = new ArrayList<>();
-    functionList.add(FunctionDef.builder()
-        .name("getCurrentTemperature")
-        .description("Get the current temperature for a specific location")
-        .functionalClass(CurrentTemperature.class)
-        .build());
-    functionList.add(FunctionDef.builder()
-        .name("getRainProbability")
-        .description("Get the probability of rain for a specific location")
-        .functionalClass(RainProbability.class)
-        .build());
-    functionExecutor = new FunctionExecutor(functionList);
-  }
-  public void LoadCSVFileDataIntoChat(String fileData) {
-    
-  }
   public void runConversation(String fileData) {
     List<ChatMessage> messages = new ArrayList<>();
     System.out.println("Welcome! Write any message or write 'exit' to finish.");
     var myMessage = "";
-    fileData += "use this csv file data to suggest the question in the next queries";
+    fileData += "Pretend to be an hotel AI assistant, use this csv file data to answer the questions, don't mention that you have a csv file. Don't answer any question that is not related to hotels, pretend that you are only a hotel AI assistant nothing else. if someone ask anything unrelated to hotels, just say 'I'm sorry, I can only help with hotel related questions'.";
     messages.add(UserMessage.of(fileData));
     while (!myMessage.toLowerCase().equals("exit")) {
       var chatStream = openAI.chatCompletions()
           .createStream(ChatRequest.builder()
               .model("gpt-4o")
               .messages(messages)
-              .tools(functionExecutor.getToolFunctions())
-              .temperature(0.2)
               .stream(true)
               .build())
           .join();
@@ -143,43 +116,7 @@ public class ConversationDemo {
 
   public static void main(String[] args) {
     var demo = new ConversationDemo();
-    demo.prepareConversation();
     String fileData = CSVFile.readFile("hotel_details.csv");
-    
     demo.runConversation(fileData);
   }
-
-  public static class CurrentTemperature implements Functional {
-
-    @JsonPropertyDescription("The city and state, e.g., San Francisco, CA")
-    @JsonProperty(required = true)
-    public String location;
-
-    @JsonPropertyDescription("The temperature unit to use. Infer this from the user's location.")
-    @JsonProperty(required = true)
-    public String unit;
-
-    @Override
-    public Object execute() {
-      double centigrades = Math.random() * (40.0 - 10.0) + 10.0;
-      double fahrenheit = centigrades * 9.0 / 5.0 + 32.0;
-      String shortUnit = unit.substring(0, 1).toUpperCase();
-      return shortUnit.equals("C") ? centigrades : (shortUnit.equals("F") ? fahrenheit : 0.0);
-    }
-
-  }
-
-  public static class RainProbability implements Functional {
-
-    @JsonPropertyDescription("The city and state, e.g., San Francisco, CA")
-    @JsonProperty(required = true)
-    public String location;
-
-    @Override
-    public Object execute() {
-      return Math.random() * 100;
-    }
-
-  }
-
 }
